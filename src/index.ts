@@ -7,4 +7,9 @@ import { createUser, getProductsById, queryProductsByName, getAllUsers,getPurcha
 
 // queryProductsByName("roupa")
 
+
 console.log(getPurchasesById("01"))
+=======
+console.log(getPurchasesById("01"))
+
+

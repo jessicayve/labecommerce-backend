@@ -1,11 +1,11 @@
-import { product, purchase, users } from "./database";
+import { createUser, getProductsById, queryProductsByName, getAllUsers,getPurchasesById, products, purchases, users } from "./database";
 
 
+// createUser("01","email","123")
+// console.log(getProductsById("01"))
 
-console.log("Lista de usuários cadastrados")
-console.table(users)
-console.log("Lista de produtos")
-console.table(product)
-console.log("Lista de compras")
-console.table(purchase)
+
+// queryProductsByName("roupa")
+
+console.log(getPurchasesById("01"))
 

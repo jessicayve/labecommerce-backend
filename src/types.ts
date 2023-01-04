@@ -1,3 +1,10 @@
+export const enum Categoria {
+    ACCESSORIES = "Acessórios",
+    CLOTHES_AND_SHOES = "Roupas e calçados",
+    ELECTRONICS = "Eletrônicos"
+}
+
+
 export type TUser = {
     id:string,
     email:string,

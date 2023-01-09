@@ -1,13 +1,9 @@
-import { TUser } from "./types";
-import { TProduct } from "./types";
-import { TPurchase } from "./types";
-import { Categoria } from "./types";
+import { TUsers } from "./type";
+import { TPurchase } from "./type";
+import { TProduct } from "./type";
+import { Categoria } from "./type";
 
-
-
-
-
-export const users: TUser[] = [
+export const users: TUsers[] = [
     {
         id: "01",
         email: "email1@email.com",
@@ -53,7 +49,7 @@ export const purchases: TPurchase[] = [
 ]
 
 export function createUser(id: string, email: string, password: string): void {
-    const newUser: TUser = {
+    const newUser: TUsers = {
         id,
         email,
         password
@@ -63,7 +59,7 @@ export function createUser(id: string, email: string, password: string): void {
     console.log("Cadastro realizado com sucesso")
 }
 
-export function getAllUsers(): TUser[] {
+export function getAllUsers(): TUsers[] {
     return users
 }
 

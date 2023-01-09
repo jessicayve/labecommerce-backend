@@ -5,7 +5,7 @@ export const enum Categoria {
 }
 
 
-export type TUser = {
+export type TUsers = {
     id:string,
     email:string,
     password:string
@@ -16,7 +16,7 @@ export type TProduct = {
     id:string, 
     name:string,
     price:number,
-    category:string
+    category: string
 }
 
 export type TPurchase = {
@@ -24,3 +24,4 @@ export type TPurchase = {
     productId: string,
     quantity: number,
     totalPrice: number
+}

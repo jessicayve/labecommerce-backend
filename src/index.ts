@@ -13,6 +13,7 @@ app.listen(3003, () => {
     console.log("Servidor rodando na porta 3003")
 })
 
+
 app.get('/ping', (req: Request, res: Response) => {
     res.send('Pong!')
 })
@@ -72,3 +73,11 @@ app.post('/purchases', (req: Request, res: Response)=>{
     purchases.push(newPurchase)
     res.status(201).send("Compra registrada com sucesso")
 })
+
+
+console.log(getPurchasesById("01"))
+
+console.log(getPurchasesById("01"))
+
+
+

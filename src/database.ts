@@ -104,5 +104,3 @@ export function getPurchasesById(userIdToSearch: string): TPurchase[]  {
     return purchases.filter((purchase)=>{
         return(purchase.userId.toLowerCase().includes(userIdToSearch.toLowerCase()))
     })
-
-}

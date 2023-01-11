@@ -18,14 +18,14 @@ export const users: TUsers[] = [
 
 export const products: TProduct[] = [
     {
-        id: "01",
+        id: "pr001",
         name: "colar",
         price: 10,
         category: Categoria.ACCESSORIES
 
     },
     {
-        id: "02",
+        id: "pr002",
         name: "roupa",
         price: 10,
         category: Categoria.CLOTHES_AND_SHOES
@@ -34,14 +34,14 @@ export const products: TProduct[] = [
 
 export const purchases: TPurchase[] = [
     {
-        userId: "01",
+        userId: "up01",
         productId: "p01",
         quantity: 1,
         totalPrice: 10.00
 
     },
     {
-        userId: "02",
+        userId: "up02",
         productId: "p02",
         quantity: 2,
         totalPrice: 20.00

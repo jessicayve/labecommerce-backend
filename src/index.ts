@@ -20,60 +20,76 @@ app.get('/ping', (req: Request, res: Response) => {
 })
 
 app.get('/users', (req: Request, res: Response) =>{
-    res.status(200).send(users)
+    try {
+        res.status(200).send(users)
+    } catch(error:any){
+        console.log(error)
+        if(res.statusCode === 200){
+            res.status(500)
+        }
+        res.send(error.message)
+
+    }
 })
 
-// app.get('/products', (req: Request, res: Response)=>{
-//     res.status(200).send(products)
-// })
+app.get('/products', (req: Request, res: Response)=>{
+  try {
+      res.status(200).send(products)
+  }catch(error:any){
+    console.log(error)
+    if(res.statusCode === 200){
+        res.status(500)
+    }
+    res.send(error.message)
 
-// app.get('/purchases', (req: Request, res: Response)=>{
-//     res.status(200).send(purchases)
-// })
+}
+})
 
-// app.get('/products/search', (req: Request, res: Response) =>{
-//     const q = req.query.q as string
+app.get('/purchases', (req: Request, res: Response)=>{
+    res.status(200).send(purchases)
+})
 
-//     const result = products.filter((product) =>{
-//         return product.name.toLowerCase().includes(q.toLowerCase())
-//     })
-//     res.status(200).send(result)
-// })
+app.get('/products/search', (req: Request, res: Response) =>{
+    const q = req.query.q 
 
-// app.post('/users', (req: Request, res: Response)=>{
-//     const {id, email, password} = req.body as TUsers
-//     const newUser = {
-//         id,
-//         email,
-//         password
-//     }
-//     users.push(newUser)
-//     res.status(201).send("Usuário regristado com sucesso")
-// })
+    const result = products.filter((product) => product.name.toLowerCase().includes(q.toLowerCase()))
+    res.status(200).send(result)
+})
 
-// app.post('/products', (req: Request, res: Response)=>{
-//     const {id, name, price, category} = req.body as TProduct
-//     const newProduct = {
-//         id,
-//         name,
-//         price,
-//         category
-//     }
-//     products.push(newProduct)
-//     res.status(201).send("Produto registrado com sucesso")
-// })
+app.post('/users', (req: Request, res: Response)=>{
+    const {id, email, password} = req.body as TUsers
+    const newUser = {
+        id,
+        email,
+        password
+    }
+    users.push(newUser)
+    res.status(201).send("Usuário regristado com sucesso")
+})
 
-// app.post('/purchases', (req: Request, res: Response)=>{
-//     const {userId, productId, quantity, totalPrice} = req.body as TPurchase
-//     const newPurchase = {
-//         userId,
-//         productId,
-//         quantity,
-//         totalPrice
-//     }
-//     purchases.push(newPurchase)
-//     res.status(201).send("Compra registrada com sucesso")
-// })
+app.post('/products', (req: Request, res: Response)=>{
+    const {id, name, price, category} = req.body as TProduct
+    const newProduct = {
+        id,
+        name,
+        price,
+        category
+    }
+    products.push(newProduct)
+    res.status(201).send("Produto registrado com sucesso")
+})
+
+app.post('/purchases', (req: Request, res: Response)=>{
+    const {userId, productId, quantity, totalPrice} = req.body as TPurchase
+    const newPurchase = {
+        userId,
+        productId,
+        quantity,
+        totalPrice
+    }
+    purchases.push(newPurchase)
+    res.status(201).send("Compra registrada com sucesso")
+})
 
 
 app.get("/products/:id", (req: Request, res: Response) => {

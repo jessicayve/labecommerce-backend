@@ -14,3 +14,4 @@ console.log(getPurchasesById("01"))
 
 //aqui deveria ter algo mas é só pra criar branch 
 //branch aprofundamento express
+//branch fluxo de dados

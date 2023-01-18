@@ -92,3 +92,43 @@ OFFSET 0;
 -- Get All Products versão 2
 SELECT * FROM products
 WHERE price <= 13 OR price<=16;
+
+CREATE TABLE purchases(
+    id TEXT PRIMARY KEY UNIQUE NOT NULL,
+    total_price REAL NOT NULL,
+    paid INTEGER NOT NULL,
+    delivered_at TEXT,
+    buyer_id TEXT NOT NULL,
+    FOREIGN KEY (buyer_id) REFERENCES users(id)
+);
+
+DROP TABLE purchases;
+
+-- get All purchases
+
+SELECT * FROM purchases;
+
+INSERT INTO purchases(id,total_price,paid,buyer_id)
+VALUES
+('pu001',20, 0,'u001'),
+('pu002',30, 0,'u001'),
+('pu003',60, 0,'u002'),
+('pu004',30.2, 0,'u002'),
+('pu005',10, 0,'u003'),
+('pu006',11, 0,'u003');
+
+UPDATE purchases
+SET delivered_at = DATETIME('now')
+WHERE id = 'pu001';
+
+UPDATE purchases
+SET delivered_at = DATETIME('now')
+WHERE id = 'pu002';
+
+UPDATE purchases
+SET delivered_at = DATETIME('now')
+WHERE id = 'pu003';
+
+UPDATE purchases
+SET delivered_at = DATETIME('now')
+WHERE id = 'pu004';

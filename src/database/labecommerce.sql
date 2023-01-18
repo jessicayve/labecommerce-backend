@@ -132,3 +132,9 @@ WHERE id = 'pu003';
 UPDATE purchases
 SET delivered_at = DATETIME('now')
 WHERE id = 'pu004';
+
+--getPurchaseByUserId
+SELECT * FROM purchases
+INNER JOIN users
+ON purchases.buyer_id = users.id;
+-- WHERE buyer_id ='u001';

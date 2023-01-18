@@ -11,3 +11,5 @@ import { createUser, getProductsById, queryProductsByName, getAllUsers,getPurcha
 console.log(getPurchasesById("01"))
 
 console.log(getPurchasesById("01"))
+
+//aqui deveria ter algo mas é só pra criar branch 

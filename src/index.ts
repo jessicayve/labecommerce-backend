@@ -1,17 +1,104 @@
-import { createUser, getProductsById, queryProductsByName, getAllUsers,getPurchasesById, products, purchases, users } from "./database";
+import express, { Request, Response } from 'express'
+import cors from 'cors'
+import { db } from './database/knex'
 
 
-// createUser("01","email","123")
-// console.log(getProductsById("01"))
+const app = express()
 
+app.use(cors())
+app.use(express.json())
 
-// queryProductsByName("roupa")
+app.listen(3003, () => {
+  console.log(`Servidor rodando na porta ${3003}`)
+})
 
+app.get("/ping", async (req: Request, res: Response) => {
+    try {
+        res.status(200).send({ message: "Pong!" })
+    } catch (error) {
+        console.log(error)
 
-console.log(getPurchasesById("01"))
+        if (req.statusCode === 200) {
+            res.status(500)
+        }
 
-console.log(getPurchasesById("01"))
+        if (error instanceof Error) {
+            res.send(error.message)
+        } else {
+            res.send("Erro inesperado")
+        }
+    }
+})
 
-//aqui deveria ter algo mas é só pra criar branch 
-//branch aprofundamento express
-//branch fluxo de dados
+app.get("/users", async (req:Request, res:Response)=>{
+    try{
+        const result = await db.raw(`SELECT * FROM users`)
+
+        res.status(200).send(result)
+
+    } catch(error){
+        console.log(error)
+
+        if (req.statusCode === 200) {
+            res.status(500)
+        }
+
+        if (error instanceof Error) {
+            res.send(error.message)
+        } else {
+            res.send("Erro inesperado")
+        }
+    }
+})
+
+app.get("/products", async (req:Request, res:Response)=>{
+    try{
+        const result = await db.raw(`SELECT * FROM products`)
+
+        res.status(200).send(result)
+
+    } catch(error){
+        console.log(error)
+
+        if (req.statusCode === 200) {
+            res.status(500)
+        }
+
+        if (error instanceof Error) {
+            res.send(error.message)
+        } else {
+            res.send("Erro inesperado")
+        }
+    }
+})
+
+app.get("/products/search", async(req:Request, res:Response)=>{
+
+    try{
+       
+        const name = req.query.name
+        const result = await db.raw(`SELECT * FROM products WHERE name = "${name}";`);
+
+       
+        if(!result){
+            res.status(404)
+            throw new Error("Produto não existe")
+        }
+        res.status(200).send(result)
+
+       
+    }catch(error){
+        console.log(error)
+
+        if (req.statusCode === 200) {
+            res.status(500)
+        }
+
+        if (error instanceof Error) {
+            res.send(error.message)
+        } else {
+            res.send("Erro inesperado")
+        }
+    }
+
+})

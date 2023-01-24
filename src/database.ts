@@ -9,54 +9,69 @@ import { Categoria } from "./types";
 
 export const users: TUser[] = [
     {
-        id: "01",
-        email: "email1@email.com",
-        password: "email1"
+        id: "u001",
+        name:"Astrodev",
+        email: "astrodev@email.com",
+        password: "email1",
+        createdAt:"datenow"
+
     },
     {
-        id: "02",
-        email: "email2@email.com",
-        password: "email2"
+        id: "u002",
+        name:"Fulano",
+        email: "fulano@email.com",
+        password: "email123",
+        createdAt:"datenow"
     }
 ]
 
 export const products: TProduct[] = [
     {
-        id: "01",
+        id: "p001",
         name: "colar",
         price: 10,
-        category: Categoria.ACCESSORIES
+        category: Categoria.ACCESSORIES,
+        description:"colar de ouro",
+        imageUrl:"foto do colar"
 
     },
     {
-        id: "02",
-        name: "roupa",
-        price: 10,
-        category: Categoria.CLOTHES_AND_SHOES
+        id: "p002",
+        name: "pulseira",
+        price: 20,
+        category: Categoria.ACCESSORIES,
+        description:"pulseria de prata",
+        imageUrl:"foto pulseira"
+
     }
 ]
 
 export const purchases: TPurchase[] = [
     {
-        userId: "01",
+       
         productId: "p01",
-        quantity: 1,
-        totalPrice: 10.00
+        buyer:"u001",
+        totalPrice: 10.00,
+        createdAt:"datenow",
+        paid:"sim/nao"
 
     },
     {
-        userId: "02",
-        productId: "p02",
-        quantity: 2,
-        totalPrice: 20.00
+        productId: "p01",
+        buyer:"u002",
+        totalPrice: 20.00,
+        createdAt:"datenow",
+        paid:"sim/nao"
     }
 ]
 
-export function createUser(id: string, email: string, password: string): void {
+export function createUser(id: string, name:string, email: string, password: string, createdAt:string): void {
     const newUser: TUser = {
         id,
+        name,
         email,
-        password
+        password,
+        createdAt,
     }
     users.push(newUser)
     console.log(users)
@@ -67,12 +82,14 @@ export function getAllUsers(): TUser[] {
     return users
 }
 
-export function createNewProduct(id: string, name: string, price: number, category: Categoria): void {
+export function createNewProduct(id: string, name: string, price: number, category: Categoria, description:string, imageUrl:string): void {
     const newProduct: TProduct = {
         id,
         name,
         price,
-        category
+        category,
+        description,
+        imageUrl
     }
     products.push(newProduct)
     console.log("Produto criado com sucesso")
@@ -92,12 +109,13 @@ export function queryProductsByName(q: string) {
     console.table(query)
 }
 
-export function createNewPurchase(userId: string, productId: string, quantity: number, totalPrice: number) {
+export function createNewPurchase(productId: string, buyer:string, totalPrice: number, createdAt:string, paid:string) {
     const newPurchase: TPurchase = {
-        userId,
         productId,
-        quantity,
-        totalPrice
+        buyer,
+        totalPrice,
+        createdAt,
+        paid
     }
     purchases.push(newPurchase)
     console.log(purchases)
@@ -106,6 +124,6 @@ export function createNewPurchase(userId: string, productId: string, quantity: n
 
 export function getPurchasesById(userIdToSearch: string): TPurchase[]  {
     return purchases.filter((purchase)=>{
-        return(purchase.userId.toLowerCase().includes(userIdToSearch.toLowerCase()))
+        return(purchase.productId.toLowerCase().includes(userIdToSearch.toLowerCase()))
     })}
 

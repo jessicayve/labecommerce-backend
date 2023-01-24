@@ -1,22 +1,21 @@
 -- Active: 1674139856019@@127.0.0.1@3306
 CREATE TABLE users(
 id TEXT PRIMARY KEY UNIQUE NOT NULL,
+name TEXT NOT NULL,
 email TEXT UNIQUE NOT NULL,
-password TEXT NOT NULL
+password TEXT NOT NULL,
+ createdAt TEXT DEFAULT (DATETIME()) NOT NULL
 
 );
+DROP TABLE users;
 
 PRAGMA table_info('users');
 
-INSERT INTO users(id, email, password)
+INSERT INTO users(id,name, email, password)
 VALUES 
-('u001', 'astrodev@gmail.com', 'password123'),
-('u002', 'fulano@gmail.com', 'pass123'),
-('u003', 'ciclano@gmail.com', 'pass1234');
-
-
-
-
+('u001', 'Astrodev', 'astrodev@gmail.com', 'password123'),
+('u002', 'Fulano',  'fulano@gmail.com', 'pass123'),
+('u003', 'Ciclano', 'ciclano@gmail.com', 'pass1234');
  
 -- Get All Users
 SELECT * FROM users;
@@ -25,16 +24,18 @@ CREATE TABLE products (
     id TEXT PRIMARY KEY UNIQUE NOT NULL,
     name TEXT NOT NULL, 
     price REAL NOT NULL,
-    category TEXT NOT NULL
+    category TEXT NOT NULL,
+    description TEXT NOT NULL,
+    imageUrl TEXT NOT NULL
 );
 
-INSERT INTO products(id, name, price, category)
+INSERT INTO products(id, name, price, category, description, imageUrl)
 VALUES
-('p001', 'blusa', 10, 'roupa'),
-('p002', 'vestido', 23, 'roupa'),
-('p003', 'chinelo', 13, 'calçados'),
-('p004', 'colar', 12, 'acessórios'),
-('p005', 'pulseira', 16, 'acessórios');
+('p001', 'blusa', 10, 'roupa', 'blusa rosa', 'foto da blusa'),
+('p002', 'vestido', 23, 'roupa', 'vestido azul', 'foto do vestido'),
+('p003', 'chinelo', 13, 'calçados', 'chinelo amarelo', 'foto do chinelo'),
+('p004', 'colar', 12, 'acessórios', 'colar de ouro', 'foto do colar'),
+('p005', 'pulseira', 16, 'acessórios', 'pulserira de prata', 'foto da pulseira');
 
 DROP TABLE products;
 
@@ -98,7 +99,7 @@ CREATE TABLE purchases(
     id TEXT PRIMARY KEY UNIQUE NOT NULL,
     total_price REAL NOT NULL,
     paid INTEGER NOT NULL,
-    delivered_at TEXT,
+    created_at TEXT,
     buyer_id TEXT NOT NULL,
     FOREIGN KEY (buyer_id) REFERENCES users(id)
 );
@@ -119,19 +120,19 @@ VALUES
 ('pu006',11, 0,'u003');
 
 UPDATE purchases
-SET delivered_at = DATETIME('now')
+SET created_at = DATETIME('now')
 WHERE id = 'pu001';
 
 UPDATE purchases
-SET delivered_at = DATETIME('now')
+SET created_at = DATETIME('now')
 WHERE id = 'pu002';
 
 UPDATE purchases
-SET delivered_at = DATETIME('now')
+SET created_at = DATETIME('now')
 WHERE id = 'pu003';
 
 UPDATE purchases
-SET delivered_at = DATETIME('now')
+SET created_at = DATETIME('now')
 WHERE id = 'pu004';
 
 --getPurchaseByUserId
@@ -169,4 +170,15 @@ FROM purchases_products
 INNER JOIN products
 ON purchases_products.product_id = products.id
 INNER JOIN purchases
+ON purchases_products.purchase_id = purchases.id;
+
+SELECT
+products.name,
+purchases_products.product_id AS productId,
+purchases_products.purchase_id AS purchaseId,
+purchases_products.quantity AS quantity
+FROM purchases_products
+RIGHT JOIN products
+ON purchases_products.product_id = products.id
+LEFT JOIN purchases
 ON purchases_products.purchase_id = purchases.id;

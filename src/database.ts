@@ -12,16 +12,14 @@ export const users: TUser[] = [
         id: "u001",
         name:"Astrodev",
         email: "astrodev@email.com",
-        password: "email1",
-        createdAt:"datenow"
+        password: "email1"
 
     },
     {
         id: "u002",
         name:"Fulano",
         email: "fulano@email.com",
-        password: "email123",
-        createdAt:"datenow"
+        password: "email123"
     }
 ]
 
@@ -50,7 +48,7 @@ export const purchases: TPurchase[] = [
     {
        
         productId: "p01",
-        buyer:"u001",
+        buyer_id:"u001",
         totalPrice: 10.00,
         createdAt:"datenow",
         paid:"sim/nao"
@@ -58,20 +56,19 @@ export const purchases: TPurchase[] = [
     },
     {
         productId: "p01",
-        buyer:"u002",
+        buyer_id:"u002",
         totalPrice: 20.00,
         createdAt:"datenow",
         paid:"sim/nao"
     }
 ]
 
-export function createUser(id: string, name:string, email: string, password: string, createdAt:string): void {
+export function createUser(id: string, name:string, email: string, password: string): void {
     const newUser: TUser = {
         id,
         name,
         email,
-        password,
-        createdAt,
+        password
     }
     users.push(newUser)
     console.log(users)
@@ -109,10 +106,10 @@ export function queryProductsByName(q: string) {
     console.table(query)
 }
 
-export function createNewPurchase(productId: string, buyer:string, totalPrice: number, createdAt:string, paid:string) {
+export function createNewPurchase(productId: string, buyer_id:string, totalPrice: number, createdAt:string, paid:string) {
     const newPurchase: TPurchase = {
         productId,
-        buyer,
+        buyer_id,
         totalPrice,
         createdAt,
         paid

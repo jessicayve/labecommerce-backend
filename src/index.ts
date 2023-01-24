@@ -46,25 +46,25 @@ app.post('/users', async (req: Request, res: Response) => {
         const { id, name, email, password } = req.body as TUser
         if (typeof id !== 'string') {
             res.status(400)
-            throw new Error("Id tem que ser uma string");
+            throw new Error("Id inválido");
         }
         if (typeof email !== 'string') {
             res.status(400)
-            throw new Error("Email tem que ser uma string");
+            throw new Error("Email inválido");
         }
         if (typeof password !== 'string') {
             res.status(400)
-            throw new Error("passwrd tem que ser uma string");
+            throw new Error("Senha inválida");
         }
         
-        const [avalibleID] = await db.raw(`SELECT * FROM users WHERE id="${id}"`)
-        if (avalibleID) {
+        const [newId] = await db.raw(`SELECT * FROM users WHERE id="${id}"`)
+        if (newId) {
             res.status(422)
             throw new Error("Id ja utilizado em outro usuario");
 
         }
-        const [avalibleEmail] = await db.raw(`SELECT * FROM users WHERE email="${email}"`)
-        if (avalibleEmail) {
+        const [newEmail] = await db.raw(`SELECT * FROM users WHERE email="${email}"`)
+        if (newEmail) {
             res.status(422)
             throw new Error("Email ja utilizado em outro usuario");
 
@@ -91,9 +91,9 @@ app.delete('/user/:id', async (req: Request, res: Response) => {
     try {
         const id = req.params.id
 
-        const [indexUser] = await db.raw(`SELECT * FROM users WHERE id="${id}"`)
+        const [newUser] = await db.raw(`SELECT * FROM users WHERE id="${id}"`)
 
-        if (indexUser) {
+        if (newUser) {
              await db.raw(`DELETE FROM users WHERE id="${id}"`)           
             res.status(200).send("User apagado com sucesso")
         } else {
@@ -118,7 +118,7 @@ app.put('/user/:id',  async (req: Request, res: Response) => {
         if (email !== undefined) {
             if (typeof email !== 'string') {
                 res.status(400)
-                throw new Error("Email deve ser uma string");
+                throw new Error("Email inválido");
             }
             if (email.length < 6) {
                 res.status(400)
@@ -126,18 +126,18 @@ app.put('/user/:id',  async (req: Request, res: Response) => {
             }
             if (!email.includes("@")) {
                 res.status(400)
-                throw new Error("Email deve ter @");
+                throw new Error("Email inválido2");
             }
 
         }
         if (password !== undefined) {
             if (typeof password !== 'string') {
                 res.status(400)
-                throw new Error("Password deve ser uma string");
+                throw new Error("Senha inválida");
             }
             if (password.length < 4) {
                 res.status(400)
-                throw new Error("Password deve ter pelomenos 4 caracteres");
+                throw new Error("Senha deve ter pelo menos 4 caracteres");
             }
         }
         const [user] = await db.raw(`SELECT * FROM users WHERE id="${id}"`)
@@ -146,14 +146,13 @@ app.put('/user/:id',  async (req: Request, res: Response) => {
             UPDATE users
             SET
             email="${email}",
-            password="${password}",
-            created_at=DATETIME()
+            password="${password}"
             WHERE id = "${id}";`)
             user.email = email || user.email
             user.password = password || user.password
             res.status(200).send("Cadastro atualizado com sucesso")
         } else {
-            res.status(404).send("Usuario não encontrado")
+            res.status(404).send("Usáario não encontrado")
         }
     } catch (error: any) {
         if (res.statusCode === 200) {
@@ -214,10 +213,10 @@ app.get('/product/:id',  async (req: Request, res: Response) => {
     try {
         const id = req.params.id
 
-        const [avalibleID] = await db.raw(`SELECT * FROM products WHERE id="${id}";`)
+        const [newId] = await db.raw(`SELECT * FROM products WHERE id="${id}";`)
         
-        if (avalibleID) {
-            res.status(200).send(avalibleID)
+        if (newId) {
+            res.status(200).send(newId)
         } else {
             res.status(404).send("Produto não encontrado")
         }
@@ -265,10 +264,10 @@ app.post('/products', async (req: Request, res: Response) => {
             res.status(400)
             throw new Error(`Catgegoria tem que ser, ${Categoria.ACCESSORIES}, ${Categoria.CLOTHES_AND_SHOES} ou ${Categoria.ELECTRONICS}`);
         }
-        const [avalibleID] = await db.raw(`SELECT * FROM products WHERE id="${id}";`)
-        if (avalibleID) {
+        const [newId] = await db.raw(`SELECT * FROM products WHERE id="${id}";`)
+        if (newId) {
             res.status(422)
-            throw new Error("Id de produto tem que ser unico");
+            throw new Error("Id já existente");
         }
         await db.raw(`
         INSERT INTO products (id,name,price,description,url_image,category)
@@ -294,7 +293,7 @@ app.delete('/product/:id',  async (req: Request, res: Response) => {
 
         if (product) {
             await db.raw(`DELETE FROM products WHERE id="${id}";`)
-            res.status(200).send("Produto apagado com sucesso")
+            res.status(200).send("Produto removido com sucesso")
 
         } else {
             res.status(404).send("Produto não encontrado")
@@ -356,7 +355,6 @@ app.put('/product/:id',  async (req: Request, res: Response) => {
             price =${isNaN(price) ? product.price : price},
             description="${description || product.description}",
             url_image="${imageUrl || product.urlImage}",
-            modified_at = DATETIME(),
             category="${categoria|| product.category}"
             WHERE id="${id}";`)
             res.status(200).send("Produto atualizado com sucesso")
@@ -375,23 +373,23 @@ app.put('/product/:id',  async (req: Request, res: Response) => {
 //purchase
 app.post('/purchase',  async (req: Request, res: Response) => {
     try {
-        const {productId, buyer } = req.body as TPurchase
+        const {productId, buyer_id } = req.body as TPurchase
      
 
-        if (typeof buyer !== 'string') {
+        if (typeof buyer_id !== 'string') {
             res.status(400)
             throw new Error("buyerID tem que ser uma string");
         }
         
-        const [avalibleID] = await db.raw(`SELECT * FROM users WHERE id="${buyer}"`)
-        if (!avalibleID) {
+        const [newId] = await db.raw(`SELECT * FROM users WHERE id="${buyer_id}"`)
+        if (!newId) {
             res.status(400)
             throw new Error("Não foi possivel achar o usuario pelo ID");
         }
 
         await db.raw(`
         INSERT INTO purchases (id,buyer_id)
-        VALUES("${productId}","${buyer}")`)
+        VALUES("${productId}","${buyer_id}")`)
         res.status(201).send("Compra realizada com sucesso")
 
 
@@ -409,20 +407,20 @@ app.post('/purchase/:id' ,async (req:Request, res:Response)=>{
         const purchaseID = req.params.id
         const {productID, quantity} = req.body
         const [product] = await db.raw(`SELECT * FROM products WHERE id = "${productID}";`)
-        let subTotal = 0;
+        let totalPrice = 0;
         if(!product){
             res.status(404)
             throw new Error("Produto não encontrado");
         }else{
-            subTotal = product.price * quantity
+            totalPrice = product.price * quantity
         }
         if(quantity<1){
             res.status(400)
             throw new Error("Quantidade tem que ser maior que 1");
         }
         await db.raw(`
-        INSERT INTO purchases_products(purchase_id, product_id,quantity,subtotal)
-        VALUES("${purchaseID}","${productID}","${quantity}","${subTotal}")`)
+        INSERT INTO purchases_products(purchase_id, product_id, totalPrice)
+        VALUES("${purchaseID}","${productID}","${totalPrice}")`)
         res.status(201).send("Purchase criada")
     } catch (error:any) {
         if (res.statusCode === 200) {

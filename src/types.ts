@@ -22,6 +22,7 @@ export type TProduct = {
 }
 
 export type TPurchase = {
+
     id: string,
     buyer_id:string,
     total_price: number,
@@ -29,6 +30,13 @@ export type TPurchase = {
     paid:number
 
 }
+=======
+    productId: string,
+    buyer_id:string,
+    totalPrice: number,
+    createdAt:string,
+    paid:string
+
 
 export type TPurchaseProduct ={
     purchaseId:string,

@@ -1,3 +1,4 @@
+
 import express, { Request, Response } from 'express'
 import cors from 'cors'
 import { db } from './database/knex'
@@ -553,3 +554,4 @@ app.get('/purchases/:id', async (req: Request, res: Response) => {
         }
     }
 })
+

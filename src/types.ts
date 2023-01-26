@@ -17,17 +17,31 @@ export type TProduct = {
     id:string, 
     name:string,
     price:number,
-    category:string,
     description:string,
-    imageUrl:string
+    image_url:string
 }
 
 export type TPurchase = {
+
+    id: string,
+    buyer_id:string,
+    total_price: number,
+    created_at:string,
+    paid:number
+
+}
+=======
     productId: string,
     buyer_id:string,
     totalPrice: number,
     createdAt:string,
     paid:string
 
+
+export type TPurchaseProduct ={
+    purchaseId:string,
+    productID:string,
+    subTotal:number,
+    quantity:number
 }
 

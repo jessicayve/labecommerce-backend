@@ -4,7 +4,7 @@ id TEXT PRIMARY KEY UNIQUE NOT NULL,
 name TEXT NOT NULL,
 email TEXT UNIQUE NOT NULL,
 password TEXT NOT NULL,
- createdAt TEXT DEFAULT (DATETIME()) NOT NULL
+created_at TEXT DEFAULT (DATETIME()) NOT NULL
 
 );
 DROP TABLE users;
@@ -24,18 +24,17 @@ CREATE TABLE products (
     id TEXT PRIMARY KEY UNIQUE NOT NULL,
     name TEXT NOT NULL, 
     price REAL NOT NULL,
-    category TEXT NOT NULL,
     description TEXT NOT NULL,
-    imageUrl TEXT NOT NULL
+    image_url TEXT NOT NULL
 );
 
-INSERT INTO products(id, name, price, category, description, imageUrl)
+INSERT INTO products(id, name, price, description, image_url)
 VALUES
-('p001', 'blusa', 10, 'roupa', 'blusa rosa', 'foto da blusa'),
-('p002', 'vestido', 23, 'roupa', 'vestido azul', 'foto do vestido'),
-('p003', 'chinelo', 13, 'calçados', 'chinelo amarelo', 'foto do chinelo'),
-('p004', 'colar', 12, 'acessórios', 'colar de ouro', 'foto do colar'),
-('p005', 'pulseira', 16, 'acessórios', 'pulserira de prata', 'foto da pulseira');
+('p001', 'blusa', 10, 'blusa rosa com laço vermelho', 'https://picsum.photos/200'),
+('p002', 'vestido', 23, 'vestido azul com renda branca', 'https://picsum.photos/200'),
+('p003', 'chinelo', 13, 'chinelo amarelo com detalhes brancos', 'https://picsum.photos/200'),
+('p004', 'colar', 12, 'colar de ouro com pingente', 'https://picsum.photos/200'),
+('p005', 'pulseira', 16, 'pulserira de prata e brilhantes', 'https://picsum.photos/200');
 
 DROP TABLE products;
 
@@ -47,10 +46,6 @@ SELECT * FROM products;
 SELECT * FROM products 
 WHERE name = 'vestido';
 
-
--- Create User
-INSERT INTO users(id,email,password)
-VALUES('p007', 'user7@gmail.com', 'p123456');
 
 
 -- Create Product
@@ -81,7 +76,7 @@ UPDATE products
 SET name='anel'
 WHERE id='p0004';
 
--- Get All Users em order crescente
+-- Get All Users em ordem crescente
 SELECT * FROM users
 ORDER BY email ASC;
 
@@ -112,12 +107,12 @@ SELECT * FROM purchases;
 
 INSERT INTO purchases(id,total_price,paid,buyer_id)
 VALUES
-('pu001',20, 0,'u001'),
-('pu002',30, 0,'u001'),
-('pu003',60, 0,'u002'),
-('pu004',30, 0,'u002'),
-('pu005',10, 0,'u003'),
-('pu006',11, 0,'u003');
+('pu001',150, 0,'u001'),
+('pu002',200, 0,'u001'),
+('pu003',250, 0,'u002'),
+('pu004',300, 0,'u002'),
+('pu005',500, 0,'u003'),
+('pu006',360, 0,'u003');
 
 UPDATE purchases
 SET created_at = DATETIME('now')
@@ -134,6 +129,14 @@ WHERE id = 'pu003';
 UPDATE purchases
 SET created_at = DATETIME('now')
 WHERE id = 'pu004';
+
+UPDATE purchases
+SET created_at = DATETIME('now')
+WHERE id = 'pu005';
+
+UPDATE purchases
+SET created_at = DATETIME('now')
+WHERE id = 'pu006';
 
 --getPurchaseByUserId
 SELECT * FROM purchases
@@ -152,9 +155,9 @@ CREATE TABLE purchases_products(
 
 INSERT INTO purchases_products(purchase_id, product_id, quantity)
 VALUES 
-('pu001', 'p003', 3),
-('pu002', 'p001', 1),
-('pu005', 'p005', 3);
+('cp001', 'p003', 3),
+('cp002', 'p001', 1),
+('cp005', 'p005', 3);
 
 
 DROP TABLE purchases_products;
